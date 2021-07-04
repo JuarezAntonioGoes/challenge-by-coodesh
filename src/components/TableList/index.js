@@ -1,8 +1,12 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Table } from 'react-bootstrap'
-import { IconArrowCircle } from './style';
+import { ButtonViewAction, IconArrowCircle } from './style';
+import { IoMdListBox } from "react-icons/io";
+import ModalPacient from '../ModalPacient';
 
 const TableList = ({ setPage, patients = [], isLoadingBtn }) => {
+    const [isShowModal, setIsShowModal] = useState(false)
+    const [viewPatient, setViewPatient] = useState({})
 
     console.log(patients);
     const formatData = (dataParam) => {
@@ -11,29 +15,37 @@ const TableList = ({ setPage, patients = [], isLoadingBtn }) => {
         return `${dataArr[2]}/${dataArr[1]}/${dataArr[0]}`
     }
 
+    const activeModal = (patient) => {
+        setViewPatient(patient)
+        setIsShowModal(true)
+    }
+
     return (
         <>
-            <Table bordered hover>
+            <Table bordered hover className="mb-3 mt-5">
                 <thead>
                     <tr>
                         <th>Name</th>
                         <th>Gender</th>
                         <th>Birth</th>
-                        <th>Actions</th>
+                        <th className="text-center">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {patients.length ? patients.map(({ name, gender, dob }, index) => (
+                    {patients.length ? patients.map((patient, index) => (
                         <tr key={index}>
-                            <td>{`${name.first} ${name.last}`}</td>
-                            <td>{gender}</td>
-                            <td>{formatData(dob.date)}</td>
+                            <td>{`${patient.name.first} ${patient.name.last}`}</td>
+                            <td>{patient.gender}</td>
+                            <td>{formatData(patient.dob.date)}</td>
+                            <td className="d-flex justify-content-center"><ButtonViewAction className="btn btn-primary" onClick={() => activeModal(patient)}><IoMdListBox /></ButtonViewAction></td>
                         </tr>
                     )) : <tr></tr>}
                 </tbody>
             </Table>
 
-            <button onClick={() => setPage(state => state + 1)}> <IconArrowCircle isLoadingBtn={isLoadingBtn} ><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 16 16" class="sc-bdnxRM fDPECZ" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M12.83 6.706a5 5 0 00-7.103-3.16.5.5 0 11-.454-.892A6 6 0 112.545 5.5a.5.5 0 11.91.417 5 5 0 109.375.789z" clip-rule="evenodd"></path><path fill-rule="evenodd" d="M7.854.146a.5.5 0 00-.708 0l-2.5 2.5a.5.5 0 000 .708l2.5 2.5a.5.5 0 10.708-.708L5.707 3 7.854.854a.5.5 0 000-.708z" clip-rule="evenodd"></path></svg></IconArrowCircle> Loading more...</button>
+            {isShowModal && <ModalPacient closeModal={() => setIsShowModal(false)} patient={viewPatient} />}
+
+            <button className="btn mb-5" onClick={() => setPage(state => state + 1)}> <IconArrowCircle src="./assets/svg/arrow-circle.svg" isLoadingBtn={isLoadingBtn} /> Loading more...</button>
         </>
     )
 }

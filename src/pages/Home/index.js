@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import axios from 'axios'
 import TableList from '../../components/TableList'
+import { Col, Container, Row } from 'react-bootstrap'
 
 
 const Home = () => {
@@ -40,7 +41,13 @@ const Home = () => {
 
 
     return (
-        <TableList patients={patients} setPage={setPage} isLoadingBtn={isLoadingBtn} />
+        <Container>
+            <Row className="d-flex justify-content-center">
+                <Col md="8" className="d-flex justify-content-center flex-column">
+                    <TableList patients={patients} setPage={setPage} isLoadingBtn={isLoadingBtn} />
+                </Col>
+            </Row>
+        </Container>
     )
 }
 
