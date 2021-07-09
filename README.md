@@ -22,4 +22,6 @@
     <li>Rode o projeto localmente com "npm run start"</li>
 </ol>
 
+### Deploy no Vercel https://challenge-by-coodesh.vercel.app/
+
 ### Este é um challenge by coodesh
