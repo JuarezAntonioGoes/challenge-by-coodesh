@@ -5,7 +5,10 @@ const InputSearch = ({ setFilterByName, patients, setGender }) => {
   const filterByName = (name) => {
     const filter = new RegExp(name, "gim");
     const filterName = patients.filter(
-      ({ name }) => filter.test(name.first) || filter.test(name.last)
+      ({ name, location }) =>
+        filter.test(name.first) ||
+        filter.test(name.last) ||
+        filter.test(location.country)
     );
 
     setFilterByName(filterName);
@@ -16,7 +19,7 @@ const InputSearch = ({ setFilterByName, patients, setGender }) => {
         <label>Search</label>
 
         <input
-          placeholder="Searching by name..."
+          placeholder="Searching by name or nationality"
           onChange={({ target }) => filterByName(target.value)}
         />
       </div>
